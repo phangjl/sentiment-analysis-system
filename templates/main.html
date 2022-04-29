@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html >
+<html>
+
+<head>
+<meta content="en-my" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Sentiment Analysis System</title>
+</head>
+
+
+<style>
+
+body {
+    font-family: Verdana, sans-serif;
+    width:100%;
+    margin:0;    
+}
+
+.headertop{
+	  background-color: black;
+      color: white;
+      width:100%;
+      font-weight: bold;
+      vertical-align: middle;
+      text-align: center;
+      padding:10px 0 10px 0;
+      margin-bottom:5px;
+ 
+}
+.modelchoose{
+       
+      width:100%;
+      font-weight: bold;
+      vertical-align: middle;
+      text-align: center;
+      padding:10px 0 10px 0;
+      margin-bottom:5px;
+	
+}
+
+.modelchoose select{
+      margin:10px;
+	  width:25%;
+
+}
+
+.mwechoose{
+       
+      width:100%;
+      font-weight: bold;
+      vertical-align: middle;
+      padding:10px 0 10px 0;
+      text-align: center;
+      margin-bottom:5px;
+
+
+	
+}
+.mwechoose div{
+       
+      width:35%;
+      font-weight:  normal;
+      vertical-align: middle;
+      padding:10px 0 10px 0;
+      margin:auto;
+      text-align: justify;
+
+ }
+
+
+
+.fileupload{
+       
+      width:100%;
+      font-weight: bold;
+      vertical-align: middle;
+      text-align: center;
+      padding:10px 0 10px 0;	
+      margin-bottom:5px;
+
+}
+.fileupload input{
+      margin:10px;
+      width:25%;
+      
+	
+}
+
+.submitbtn{
+      width:100%;
+      font-weight: bold;
+      vertical-align: middle;
+      text-align: center;
+      padding:10px 0 10px 0;
+      margin-bottom:5px;
+
+	
+}
+
+.submitbtn input{
+	background-color:black;
+	font-weight: bold;
+    padding:5px 5px 5px 5px;
+    display: inline-block;
+    width:25%;
+    color:white;
+
+}
+
+
+
+</style>
+
+
+
+
+<header>
+<div class="headertop">
+ <h1>Sentiment Analysis </h1>
+</div>
+</header>
+
+<body>
+
+
+
+<form  action = "http://127.0.0.1:5000/result" method = "POST" enctype = "multipart/form-data">
+<!-- To allow user choose a classification model -->
+
+<div class="modelchoose">
+ <label>Choose a Classification Model </label> <br/>
+  <select id="modeltype" name="modeltype" required>
+    <option value="lsvm">Linear Support Vector</option>
+    <option value="nb">Naive Bayes</option>
+    <option value="rf">Random Forest</option>
+    <option value="ensemble">Ensemble (Bagging) with Random Forest</option>
+    
+  </select>
+</div>
+
+
+<div class="mwechoose">
+ <label>Choose the Multiword Expression Detection </label> <br/>
+ <div>
+  <input type="checkbox" id="idm" name="idm" value="idm"/>  <label>Idioms</label><br/>
+  <input type="checkbox" id="fe" name="fe" value="fe"/>  <label>Fixed Expression</label><br/>
+  <input type="checkbox" id="lvc" name="lvc" value="lvc"/>  <label>Light Verb Construction</label><br/>
+  <input type="checkbox" id="vp" name="vp" value="vp"/>  <label>Verb Particle </label><br/>
+</div>
+
+  
+ </div>
+
+
+
+<div class="fileupload">
+<!-- To allow user to upload the test file that consist the sentences -->
+<label>Upload a File  </label> <br/>
+<input name="file" id="fname" type="file" accept=".txt"  required/>
+</div>
+
+<div class="submitbtn">
+<input type="submit" value="Run"/>
+</div>
+</form>
+
+
+</body>
+
+</html>

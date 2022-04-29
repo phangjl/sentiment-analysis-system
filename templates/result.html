@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html >
+<html>
+<head>
+<title>Sentiment Analysis System</title>
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+</head>
+
+
+<style>
+
+body {
+    font-family: Verdana, sans-serif;
+    width:100%;
+    margin:0;    
+}
+
+.headertop{
+	  background-color: black;
+      color: white;
+      width:100%;
+      font-weight: bold;
+      vertical-align: middle;
+      text-align: center;
+      padding:10px 0 10px 0;
+      margin-bottom:5px;
+ 
+}
+
+.toptitle{
+	  color: Black;
+      width:100%;
+      font-weight: bold;
+      vertical-align: middle;
+      text-align: center;
+      padding:10px 0 10px 0;
+      margin-bottom:5px;
+
+}
+
+.back{
+  	 
+     padding:2% 0 0 5%;
+     width:100%;
+
+}
+
+.back a{
+	  text-align: center;
+	  display: inline-block;
+      background-color:black;
+      color:white;
+      font-weight: bold;
+      padding:10px;
+      text-decoration:none;
+     
+}
+.back a:hover{
+	  text-align: center;
+	  display: inline-block;
+      background-color:gray;
+      font-weight: bold;
+      padding:10px;
+      border-color:2px solid black;
+      
+
+
+}
+
+.resultTable{
+	text-align:center;
+	margin-bottom:5px;
+
+}
+
+
+.filedetail{
+	width:95%;
+	margin:auto;
+	text-align:center;
+   vertical-align: middle;
+	margin-bottom:5%;
+}
+
+
+
+.filedetail1{
+	width:100%;
+	margin:auto;
+	text-align:center;
+   vertical-align: middle;
+
+}
+
+
+.filedetail1 .subdetail1{
+
+	
+	padding:2%;
+	margin-bottom:2%;
+	text-align:center;
+	vertical-align: middle;
+   border: 1px solid black;	
+}
+
+
+
+.subdetail{
+	width:16%;
+	margin-right:5.42px;
+	padding-bottom:3%;
+	margin-bottom:5%;
+	float:	left;
+   text-align:center;
+	vertical-align: middle;
+   border: 1px solid black;	
+}
+
+.filetable{
+		width:95%;
+ 	text-align:center;
+                vertical-align: middle;
+	
+	float:none;
+                  margin:auto;
+               margin-bottom:5%;
+
+
+}
+.dataframe{
+	text-align:left;
+	display: inline-table;
+	width:100%;
+	border-collapse: collapse;
+	margin:auto;
+}
+.dataframe td{
+	text-align:left;
+	border: 1px solid black;
+	padding: 10px;
+}
+
+.dataframe tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.dataframe th {
+  padding: 10px;
+  text-align: left;
+  background-color:black;
+  border: 1px solid black;
+  color: white;
+}
+
+</style>
+
+
+
+<header>
+	<div class="headertop">
+		 <h1>Sentiment Analysis </h1>
+	</div>
+</header>
+
+
+
+
+<body>
+
+<div class="back">
+    <a href="http://localhost:5000/"> Back to Home </a>
+    
+</div>	
+
+
+  <div class="toptitle">
+		<h2>Result of {{resultfile}}</h2>
+		
+  </div>
+  
+  
+  <div class="resultTable">
+  	<div class="filedetail">
+  	  	<div class="filedetail1">
+  	  	   <div class="subdetail1">
+			<label>Multword Expression detection</label><br/><label style="font-weight:bold">{{mweChoose}}</label> <br/><br/> 	 	
+			<label>Total Number of Data</label><br/><label style="font-weight:bold">{{total1}}</label>  	
+		   </div> 
+     	  	<div class="subdetail">   <label>Number of Happiness</label><br/><br/><label style="font-weight:bold">{{happiness1}}</label>  </div>
+  	 	  	<div class="subdetail">   <label>Number of Sadness</label><br/><br/><label style="font-weight:bold">{{sadness1}}</label>  </div>
+  	 	  	<div class="subdetail">   <label>Number of Surprise</label><br/><br/><label style="font-weight:bold">{{surprise1}}</label>  </div>
+  	 	  	<div class="subdetail">   <label>Number of Fear</label><br/><br/><label style="font-weight:bold">{{fear1}}</label>  </div>
+  	 	  	<div class="subdetail">   <label>Number of Anger</label><br/><br/><label style="font-weight:bold">{{anger1}}</label>  </div>
+  	 	  	<div class="subdetail">   <label>Number of Disgust</label><br/><br/><label style="font-weight:bold">{{disgust1}}</label>  </div>  	 
+  	    </div>
+  	    </div>
+
+
+ <center>
+    <h3>{{ title }}</h3>
+  </center>
+  <center>
+<div style="border: 1px solid black; width: 550px;">
+    <canvas id="chart" width="550" height="300"></canvas>
+ </div>
+    <script>
+      // bar chart data
+      var barData = {
+        labels : [
+          {% for item in labels %}
+           "{{ item }}",
+          {% endfor %}
+	],
+
+        datasets : [{
+          fillColor: "rgba(10,49,179,1)",
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          data : [
+            {% for item in values %}
+               "{{ item }}",
+              {% endfor %}
+	    ]
+          }
+        ]
+      }
+
+     // get bar chart canvas
+     var mychart = document.getElementById("chart").getContext("2d");
+
+       steps = {{steps}}
+       max = {{max}}
+
+     // draw bar chart
+     new Chart(mychart).Bar(barData, {
+       scaleOverride: true,
+       scaleSteps: steps,
+       scaleStepWidth: Math.ceil(max / steps),
+       scaleStartValue: 0,
+       scaleShowVerticalLines: true,
+       scaleShowGridLines : true,
+       barShowStroke : true,
+       scaleShowLabels: true
+       }
+     );
+
+    </script>
+
+<br/><br/> 	
+
+
+	<div class="filetable">
+		{% for table in result %}
+				{{ table|safe }}
+		{% endfor %}
+	</div>
+				
+ </div>
+
+   </body>
+
+
+
+
+
+</html>
+
+
+
